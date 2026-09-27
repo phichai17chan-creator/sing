@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDENT-FLOW | หน้าแรก</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --bg-dark: #0f172a; 
+            --card-bg: rgba(30, 41, 59, 0.7); 
+            --border-color: rgba(255, 255, 255, 0.1); 
+            --accent-blue: #38bdf8; 
+            --accent-green: #4ade80; 
+            --accent-purple: #c084fc; 
+            --accent-rose: #fb7185; 
+            --accent-yellow: #facc15; 
+            --text-main: #f8fafc; 
+            --text-sub: #94a3b8; 
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
+        
+        body { 
+            background: var(--bg-dark); 
+            background-image: radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.15), transparent 35%), radial-gradient(circle at 85% 85%, rgba(192, 132, 252, 0.15), transparent 35%); 
+            color: var(--text-main); 
+            min-height: 100vh; 
+            padding-bottom: 40px; 
+        }
+
+        /* NAVBAR */
+        .navbar { 
+            background: rgba(15, 23, 42, 0.9); 
+            backdrop-filter: blur(16px); 
+            border-bottom: 1px solid var(--border-color); 
+            padding: 16px 6%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+        }
+        .brand { 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 1.4rem; 
+            font-weight: 800; 
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); 
+            -webkit-background-clip: text; 
+            background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            text-decoration: none; 
+        }
+        .nav-links { display: flex; gap: 12px; list-style: none; align-items: center; }
+        .nav-links a { 
+            color: var(--text-sub); 
+            text-decoration: none; 
+            font-size: 0.9rem; 
+            font-weight: 500; 
+            padding: 8px 14px; 
+            border-radius: 10px; 
+            transition: all 0.2s ease; 
+        }
+        .nav-links a.active, .nav-links a:hover { 
+            color: #fff; 
+            background: rgba(255,255,255,0.08); 
+            border: 1px solid var(--border-color); 
+        }
+        .btn-reset-all {
+            background: rgba(251, 113, 133, 0.15);
+            color: var(--accent-rose);
+            border: 1px solid rgba(251, 113, 133, 0.4);
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-reset-all:hover {
+            background: var(--accent-rose);
+            color: #fff;
+        }
+
+        /* HERO BANNER SECTION */
+        .hero-banner {
+            width: 100%;
+            height: 240px;
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.95) 20%, rgba(15, 23, 42, 0.4) 60%, rgba(15, 23, 42, 0.1) 100%), url('b_2.png') center/cover no-repeat;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 8%;
+            margin-bottom: 28px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+        }
+        .hero-content { max-width: 550px; }
+        .hero-tag {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .hero-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1.3;
+            background: linear-gradient(135deg, #ffffff, var(--accent-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-desc { color: var(--text-sub); font-size: 0.9rem; margin-top: 6px; }
+
+        /* LAYOUT & CARDS */
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 20px; 
+            display: grid; 
+            grid-template-columns: 1fr 1.8fr; 
+            gap: 24px; 
+        }
+        .card { 
+            background: var(--card-bg); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid var(--border-color); 
+            border-radius: 20px; 
+            padding: 24px; 
+            margin-bottom: 24px; 
+        }
+        .card-title { font-size: 1.15rem; font-weight: 600; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+
+        .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .stat-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); padding: 14px; border-radius: 14px; }
+        .stat-item h4 { font-size: 0.8rem; color: var(--text-sub); }
+        .stat-item .val { font-size: 1.3rem; font-weight: 700; margin-top: 4px; color: #fff; }
+
+        .input-group { display: flex; gap: 8px; margin-bottom: 16px; }
+        .input-ctrl { flex: 1; background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border-color); color: #fff; padding: 10px 14px; border-radius: 10px; outline: none; font-size: 0.9rem; }
+        .btn-add { background: linear-gradient(135deg, var(--accent-blue), #0284c7); color: #fff; border: none; padding: 10px 16px; border-radius: 10px; font-weight: 600; cursor: pointer; }
+
+        .todo-item { background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .tag-subject { background: rgba(192, 132, 252, 0.2); color: var(--accent-purple); padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; margin-right: 6px; }
+        .btn-del { background: none; border: none; color: var(--accent-rose); cursor: pointer; font-size: 0.9rem; }
+        .money-summary { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.3); border-radius: 14px; margin-bottom: 16px; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="brand"><i class="fa-solid fa-graduation-cap"></i> STUDENT-FLOW</a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active"><i class="fa-solid fa-house"></i> หน้าแรก</a></li>
+            <li><a href="portfolio.html"><i class="fa-solid fa-folder-open"></i> ผลงาน TCAS1</a></li>
+            <li><a href="timer.html"><i class="fa-solid fa-stopwatch"></i> จับเวลา/บทเรียน</a></li>
+            <li><a href="university.html"><i class="fa-solid fa-building-columns"></i> เป้าหมายคณะ</a></li>
+            <li><button class="btn-reset-all" onclick="resetAllData()"><i class="fa-solid fa-rotate"></i> รีเซ็ตเป็น 0</button></li>
+        </ul>
+    </nav>
+
+    <!-- HERO BANNER SECTION -->
+    <div class="hero-banner">
+        <div class="hero-content">
+            <span class="hero-tag"><i class="fa-solid fa-rocket"></i> DASHBOARD ม.5</span>
+            <h1 class="hero-title">วางแผนการเรียน & เคลียร์เป้าหมายชีวิต</h1>
+            <p class="hero-desc">จัดการเกรด การบ้าน ตารางเรียน และงบค่าขนมประจำวัน เริ่มต้นวางรากฐานสู่มหาวิทยาลัยได้แล้ววันนี้</p>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+    <div class="container">
+        <!-- LEFT COLUMN -->
+        <div>
+            <!-- GPA TARGET -->
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-bullseye" style="color:var(--accent-green);"></i> เป้าหมายเกรด (GPA)</div>
+                <div class="stat-grid" style="margin-bottom:14px;">
+                    <div class="stat-item">
+                        <h4>เป้าหมายเทอมนี้</h4>
+                        <div class="val" style="color:var(--accent-green);" id="gpaTargetVal">0.00</div>
+                    </div>
+                    <div class="stat-item">
+                        <h4>เกรดสะสม (GPAX)</h4>
+                        <div class="val" style="color:var(--accent-blue);" id="gpaxVal">0.00</div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input type="number" step="0.01" id="gpaTargetInput" class="input-ctrl" placeholder="เป้าหมายเทอมนี้">
+                    <input type="number" step="0.01" id="gpaxInput" class="input-ctrl" placeholder="GPAX ปัจจุบัน">
+                    <button class="btn-add" onclick="saveGPA()"><i class="fa-solid fa-floppy-disk"></i> บันทึก</button>
+                </div>
+            </div>
+
+            <!-- POCKET MONEY & SAVINGS -->
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-wallet" style="color:var(--accent-blue);"></i> เงินค่าขนม & เงินออม</div>
+                
+                <div class="money-summary">
+                    <div>
+                        <span style="font-size:0.8rem; color:var(--text-sub);">เงินคงเหลือวันนี้</span>
+                        <h3 style="color:var(--accent-green);" id="moneyBalance">0 ฿</h3>
+                    </div>
+                    <div>
+                        <span style="font-size:0.8rem; color:var(--text-sub);">ยอดออมสะสม</span>
+                        <h3 style="color:var(--accent-purple);" id="savingsBalance">0 ฿</h3>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <input type="number" id="moneyInput" class="input-ctrl" placeholder="จำนวนเงิน (บาท)">
+                    <button class="btn-add" onclick="addMoney(1)"><i class="fa-solid fa-plus"></i> รับ</button>
+                    <button class="btn-add" style="background:#ef4444;" onclick="addMoney(-1)"><i class="fa-solid fa-minus"></i> จ่าย</button>
+                    <button class="btn-add" style="background:linear-gradient(135deg, var(--accent-purple), #9333ea);" onclick="addSavings()"><i class="fa-solid fa-piggy-bank"></i> ออม</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div>
+            <!-- HOMEWORK TRACKER -->
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-book-open" style="color:var(--accent-purple);"></i> คลังการบ้าน & โปรเจกต์กลุ่ม</div>
+                
+                <div class="input-group">
+                    <input type="text" id="subjectInput" class="input-ctrl" style="max-width: 120px;" placeholder="วิชา">
+                    <input type="text" id="taskInput" class="input-ctrl" placeholder="ชื่องาน / การบ้าน...">
+                    <input type="date" id="dateInput" class="input-ctrl" style="max-width: 140px;">
+                    <button class="btn-add" onclick="addHomework()"><i class="fa-solid fa-plus"></i> เพิ่ม</button>
+                </div>
+
+                <div id="homeworkList"></div>
+            </div>
+
+            <!-- STUDY SCHEDULE -->
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-calendar-check" style="color:var(--accent-rose);"></i> ตารางอ่านหนังสือ & เรียนพิเศษ</div>
+                
+                <div class="input-group">
+                    <select id="daySelect" class="input-ctrl" style="max-width: 110px;">
+                        <option value="จันทร์">จันทร์</option>
+                        <option value="อังคาร">อังคาร</option>
+                        <option value="พุธ">พุธ</option>
+                        <option value="พฤหัส">พฤหัส</option>
+                        <option value="ศุกร์">ศุกร์</option>
+                        <option value="เสาร์">เสาร์</option>
+                        <option value="อาทิตย์">อาทิตย์</option>
+                    </select>
+                    <input type="text" id="studyPlanInput" class="input-ctrl" placeholder="บทเรียนที่จะอ่าน หรือ คอร์สเรียนพิเศษ...">
+                    <button class="btn-add" style="background:linear-gradient(135deg, var(--accent-rose), #e11d48);" onclick="addStudyPlan()"><i class="fa-solid fa-plus"></i> ลงตาราง</button>
+                </div>
+
+                <div id="studyPlanList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let homeworks = JSON.parse(localStorage.getItem('m5_homeworks')) || [];
+        let studyPlans = JSON.parse(localStorage.getItem('m5_study_plans')) || [];
+        let balance = parseInt(localStorage.getItem('m5_balance')) || 0;
+        let savings = parseInt(localStorage.getItem('m5_savings')) || 0;
+        let gpaTarget = localStorage.getItem('m5_gpa_target') || '0.00';
+        let gpax = localStorage.getItem('m5_gpax') || '0.00';
+
+        function renderGPA() {
+            document.getElementById('gpaTargetVal').innerText = gpaTarget;
+            document.getElementById('gpaxVal').innerText = gpax;
+        }
+
+        function saveGPA() {
+            const target = document.getElementById('gpaTargetInput').value;
+            const current = document.getElementById('gpaxInput').value;
+            if(target) gpaTarget = parseFloat(target).toFixed(2);
+            if(current) gpax = parseFloat(current).toFixed(2);
+            localStorage.setItem('m5_gpa_target', gpaTarget);
+            localStorage.setItem('m5_gpax', gpax);
+            renderGPA();
+            document.getElementById('gpaTargetInput').value = '';
+            document.getElementById('gpaxInput').value = '';
+        }
+
+        function renderHomework() {
+            localStorage.setItem('m5_homeworks', JSON.stringify(homeworks));
+            const list = document.getElementById('homeworkList');
+            list.innerHTML = homeworks.length === 0 ? '<p style="color:var(--text-sub); font-size:0.85rem; text-align:center; padding:10px;">ยังไม่มีการบ้านที่บันทึกไว้</p>' : '';
+            
+            homeworks.forEach((item, index) => {
+                list.innerHTML += `
+                    <div class="todo-item">
+                        <div>
+                            <h5><span class="tag-subject">${item.subject}</span>${item.title}</h5>
+                            <p style="font-size:0.75rem; color:var(--text-sub);"><i class="fa-regular fa-clock"></i> ส่งภายใน: ${item.date}</p>
+                        </div>
+                        <button class="btn-del" onclick="deleteHomework(${index})"><i class="fa-solid fa-circle-check"></i> เสร็จแล้ว</button>
+                    </div>
+                `;
+            });
+        }
+
+        function renderStudyPlan() {
+            localStorage.setItem('m5_study_plans', JSON.stringify(studyPlans));
+            const list = document.getElementById('studyPlanList');
+            list.innerHTML = studyPlans.length === 0 ? '<p style="color:var(--text-sub); font-size:0.85rem; text-align:center; padding:10px;">ยังไม่มีตารางอ่านหนังสือ</p>' : '';
+            
+            studyPlans.forEach((item, index) => {
+                list.innerHTML += `
+                    <div class="todo-item">
+                        <div>
+                            <h5><span class="tag-subject" style="background:rgba(251, 113, 133, 0.2); color:var(--accent-rose);">${item.day}</span>${item.title}</h5>
+                        </div>
+                        <button class="btn-del" onclick="deleteStudyPlan(${index})"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+            });
+        }
+
+        function renderMoney() {
+            localStorage.setItem('m5_balance', balance);
+            localStorage.setItem('m5_savings', savings);
+            document.getElementById('moneyBalance').innerText = balance.toLocaleString() + ' ฿';
+            document.getElementById('savingsBalance').innerText = savings.toLocaleString() + ' ฿';
+        }
+
+        function addHomework() {
+            const subject = document.getElementById('subjectInput').value;
+            const title = document.getElementById('taskInput').value;
+            const date = document.getElementById('dateInput').value;
+            if(!subject || !title || !date) return alert('กรุณากรอกข้อมูลการบ้านให้ครบครับ');
+            homeworks.push({ subject, title, date });
+            document.getElementById('subjectInput').value = '';
+            document.getElementById('taskInput').value = '';
+            document.getElementById('dateInput').value = '';
+            renderHomework();
+        }
+
+        function deleteHomework(i) { homeworks.splice(i, 1); renderHomework(); }
+
+        function addStudyPlan() {
+            const day = document.getElementById('daySelect').value;
+            const title = document.getElementById('studyPlanInput').value;
+            if(!title) return alert('กรุณาระบุเนื้อหาหรือคอร์สเรียนครับ');
+            studyPlans.push({ day, title });
+            document.getElementById('studyPlanInput').value = '';
+            renderStudyPlan();
+        }
+
+        function deleteStudyPlan(i) { studyPlans.splice(i, 1); renderStudyPlan(); }
+
+        function addMoney(multiplier) {
+            const val = parseInt(document.getElementById('moneyInput').value);
+            if(!val) return;
+            balance += (val * multiplier);
+            document.getElementById('moneyInput').value = '';
+            renderMoney();
+        }
+
+        function addSavings() {
+            const val = parseInt(document.getElementById('moneyInput').value);
+            if(!val) return;
+            if(balance < val) return alert('เงินคงเหลือวันนี้ไม่พอออมครับ!');
+            balance -= val; savings += val;
+            document.getElementById('moneyInput').value = '';
+            renderMoney();
+        }
+
+        // RESET ALL DATA TO 0
+        function resetAllData() {
+            if(confirm('คุณต้องการรีเซ็ตข้อมูลทั้งหมดกลับเป็น 0 ใช่ไหม?')) {
+                localStorage.clear();
+                balance = 0;
+                savings = 0;
+                gpaTarget = '0.00';
+                gpax = '0.00';
+                homeworks = [];
+                studyPlans = [];
+                renderGPA();
+                renderHomework();
+                renderStudyPlan();
+                renderMoney();
+                alert('รีเซ็ตข้อมูลเป็น 0 เรียบร้อยแล้ว!');
+            }
+        }
+
+        renderGPA(); renderHomework(); renderStudyPlan(); renderMoney();
+    </script>
+</body>
+</html>

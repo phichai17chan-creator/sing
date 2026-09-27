@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDENT-FLOW | จับเวลาอ่านหนังสือ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-dark: #0f172a; --card-bg: rgba(30, 41, 59, 0.7); --border-color: rgba(255, 255, 255, 0.1); --accent-blue: #38bdf8; --accent-yellow: #facc15; --accent-green: #4ade80; --text-main: #f8fafc; --text-sub: #94a3b8; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
+        body { background: var(--bg-dark); color: var(--text-main); min-height: 100vh; padding-bottom: 40px; }
+
+        .navbar { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color); padding: 16px 6%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .brand { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-blue), #c084fc); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+        .nav-links { display: flex; gap: 16px; list-style: none; }
+        .nav-links a { color: var(--text-sub); text-decoration: none; font-size: 0.9rem; font-weight: 500; padding: 8px 14px; border-radius: 10px; }
+        .nav-links a.active { color: #fff; background: rgba(255,255,255,0.08); border: 1px solid var(--border-color); }
+
+        .container { max-width: 1100px; margin: 28px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 24px; }
+        .card { background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid var(--border-color); border-radius: 20px; padding: 24px; text-align: center; }
+
+        .timer-display { font-family: 'Orbitron', sans-serif; font-size: 4rem; font-weight: 900; color: var(--accent-yellow); margin: 20px 0; }
+        .btn-timer { background: linear-gradient(135deg, var(--accent-blue), #0284c7); color: #fff; border: none; padding: 10px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; margin: 0 4px; }
+
+        .input-group { display: flex; gap: 8px; margin-bottom: 16px; }
+        .input-ctrl { flex: 1; background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border-color); color: #fff; padding: 10px; border-radius: 10px; outline: none; }
+        .topic-item { background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; text-align: left; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="brand"><i class="fa-solid fa-graduation-cap"></i> STUDENT-FLOW</a>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fa-solid fa-house"></i> หน้าแรก</a></li>
+            <li><a href="portfolio.html"><i class="fa-solid fa-folder-open"></i> ผลงาน TCAS1</a></li>
+            <li><a href="timer.html" class="active"><i class="fa-solid fa-stopwatch"></i> จับเวลา/บทเรียน</a></li>
+            <li><a href="university.html"><i class="fa-solid fa-building-columns"></i> เป้าหมายคณะ</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- POMODORO TIMER -->
+        <div class="card">
+            <h2><i class="fa-solid fa-brain" style="color:var(--accent-yellow);"></i> นาฬิกาโฟกัส Pomodoro</h2>
+            <p style="font-size:0.85rem; color:var(--text-sub);">โฟกัสอ่านหนังสือ 25 นาที / พักผ่อน 5 นาที</p>
+            
+            <div class="timer-display" id="timeDisplay">25:00</div>
+
+            <div>
+                <button class="btn-timer" onclick="startTimer()"><i class="fa-solid fa-play"></i> เริ่มโฟกัส</button>
+                <button class="btn-timer" style="background:#ef4444;" onclick="pauseTimer()"><i class="fa-solid fa-pause"></i> หยุด</button>
+                <button class="btn-timer" style="background:#64748b;" onclick="resetTimer()"><i class="fa-solid fa-rotate-right"></i> รีเซ็ต</button>
+            </div>
+        </div>
+
+        <!-- SYLLABUS CHECKLIST -->
+        <div class="card" style="text-align: left;">
+            <h3 style="margin-bottom:16px;"><i class="fa-solid fa-list-check" style="color:var(--accent-green);"></i> เช็กรีวิวบทเรียน (Check-List)</h3>
+            
+            <div class="input-group">
+                <input type="text" id="subject" class="input-ctrl" placeholder="วิชา" style="max-width: 100px;">
+                <input type="text" id="topic" class="input-ctrl" placeholder="ชื่อบทเรียน (เช่น ฟังก์ชั่นตรีโกณ)">
+                <button class="btn-timer" style="padding:10px 14px;" onclick="addTopic()"><i class="fa-solid fa-plus"></i></button>
+            </div>
+
+            <div id="topicList"></div>
+        </div>
+    </div>
+
+    <script>
+        let timeLeft = 25 * 60;
+        let timerId = null;
+
+        function updateDisplay() {
+            const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            const s = (timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById('timeDisplay').innerText = `${m}:${s}`;
+        }
+
+        function startTimer() {
+            if(timerId) return;
+            timerId = setInterval(() => {
+                if(timeLeft > 0) { timeLeft--; updateDisplay(); } 
+                else { clearInterval(timerId); alert('หมดเวลาโฟกัส! ได้เวลาพักผ่อน 5 นาทีครับ'); }
+            }, 1000);
+        }
+
+        function pauseTimer() { clearInterval(timerId); timerId = null; }
+        function resetTimer() { pauseTimer(); timeLeft = 25 * 60; updateDisplay(); }
+
+        // Syllabus Tracker
+        let topics = JSON.parse(localStorage.getItem('m5_topics')) || [];
+
+        function renderTopics() {
+            localStorage.setItem('m5_topics', JSON.stringify(topics));
+            const list = document.getElementById('topicList');
+            list.innerHTML = topics.length === 0 ? '<p style="color:var(--text-sub); font-size:0.85rem;">ยังไม่มีบทเรียนที่บันทึกไว้</p>' : '';
+            topics.forEach((item, index) => {
+                list.innerHTML += `
+                    <div class="topic-item">
+                        <div>
+                            <span style="font-size:0.75rem; color:var(--accent-blue);">[${item.subject}]</span>
+                            <span style="${item.done ? 'text-decoration: line-through; color:var(--text-sub);' : ''}">${item.topic}</span>
+                        </div>
+                        <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleTopic(${index})">
+                    </div>
+                `;
+            });
+        }
+
+        function addTopic() {
+            const subject = document.getElementById('subject').value;
+            const topic = document.getElementById('topic').value;
+            if(!subject || !topic) return;
+            topics.push({ subject, topic, done: false });
+            document.getElementById('subject').value = '';
+            document.getElementById('topic').value = '';
+            renderTopics();
+        }
+
+        function toggleTopic(i) { topics[i].done = !topics[i].done; renderTopics(); }
+        renderTopics();
+    </script>
+</body>
+</html>

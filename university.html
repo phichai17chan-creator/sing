@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDENT-FLOW | คณะในฝัน</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-dark: #0f172a; --card-bg: rgba(30, 41, 59, 0.7); --border-color: rgba(255, 255, 255, 0.1); --accent-blue: #38bdf8; --accent-purple: #c084fc; --accent-yellow: #facc15; --accent-rose: #fb7185; --text-main: #f8fafc; --text-sub: #94a3b8; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
+        body { background: var(--bg-dark); color: var(--text-main); min-height: 100vh; padding-bottom: 40px; }
+
+        .navbar { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color); padding: 16px 6%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .brand { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+        .nav-links { display: flex; gap: 16px; list-style: none; }
+        .nav-links a { color: var(--text-sub); text-decoration: none; font-size: 0.9rem; font-weight: 500; padding: 8px 14px; border-radius: 10px; }
+        .nav-links a.active { color: #fff; background: rgba(255,255,255,0.08); border: 1px solid var(--border-color); }
+
+        .container { max-width: 1000px; margin: 28px auto; padding: 0 20px; }
+        .card { background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid var(--border-color); border-radius: 20px; padding: 24px; margin-bottom: 24px; }
+
+        .uni-form { display: grid; grid-template-columns: 1fr 1fr 120px; gap: 10px; margin-bottom: 20px; }
+        .input-ctrl { background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border-color); color: #fff; padding: 10px 14px; border-radius: 10px; outline: none; }
+        .btn-add { background: linear-gradient(135deg, var(--accent-blue), #0284c7); color: #fff; border: none; padding: 10px 16px; border-radius: 10px; font-weight: 600; cursor: pointer; grid-column: span 3; }
+
+        .target-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 16px; padding: 18px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="brand"><i class="fa-solid fa-graduation-cap"></i> STUDENT-FLOW</a>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fa-solid fa-house"></i> หน้าแรก</a></li>
+            <li><a href="portfolio.html"><i class="fa-solid fa-folder-open"></i> ผลงาน TCAS1</a></li>
+            <li><a href="timer.html"><i class="fa-solid fa-stopwatch"></i> จับเวลา/บทเรียน</a></li>
+            <li><a href="university.html" class="active"><i class="fa-solid fa-building-columns"></i> เป้าหมายคณะ</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <h2><i class="fa-solid fa-compass" style="color:var(--accent-blue);"></i> คณะ & มหาวิทยาลัยเป้าหมาย (TCAS Target)</h2>
+            <p style="font-size:0.85rem; color:var(--text-sub); margin-bottom:20px;">บันทึกเป้าหมายคณะที่อยากเข้า เพื่อวางแผนคะแนนสอบล่วงหน้าตั้งแต่ ม.5</p>
+
+            <div class="uni-form">
+                <input type="text" id="uniName" class="input-ctrl" placeholder="ชื่อมหาวิทยาลัย (เช่น จุฬาฯ, มก., มหิดล)">
+                <input type="text" id="facultyName" class="input-ctrl" placeholder="คณะ / สาขาที่ต้องการ">
+                <select id="round" class="input-ctrl">
+                    <option value="รอบ 1 Port">รอบ 1 Port</option>
+                    <option value="รอบ 2 Quota">รอบ 2 Quota</option>
+                    <option value="รอบ 3 Admission">รอบ 3 Admission</option>
+                </select>
+                <button class="btn-add" onclick="addTarget()"><i class="fa-solid fa-bullseye"></i> เพิ่มเป้าหมาย</button>
+            </div>
+
+            <div id="targetList"></div>
+        </div>
+    </div>
+
+    <script>
+        let targets = JSON.parse(localStorage.getItem('m5_targets')) || [];
+
+        function renderTargets() {
+            localStorage.setItem('m5_targets', JSON.stringify(targets));
+            const list = document.getElementById('targetList');
+            list.innerHTML = targets.length === 0 ? '<p style="color:var(--text-sub); text-align:center; padding:20px;">ยังไม่ได้ตั้งเป้าหมายคณะไว้</p>' : '';
+            targets.forEach((item, index) => {
+                list.innerHTML += `
+                    <div class="target-card">
+                        <div>
+                            <span style="background:rgba(250, 204, 21, 0.2); color:var(--accent-yellow); padding:3px 8px; border-radius:6px; font-size:0.75rem;">${item.round}</span>
+                            <h3 style="margin-top:6px; font-size:1.1rem;">${item.facultyName}</h3>
+                            <p style="font-size:0.85rem; color:var(--text-sub);"><i class="fa-solid fa-school"></i> ${item.uniName}</p>
+                        </div>
+                        <button onclick="delTarget(${index})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+            });
+        }
+
+        function addTarget() {
+            const uniName = document.getElementById('uniName').value;
+            const facultyName = document.getElementById('facultyName').value;
+            const round = document.getElementById('round').value;
+            if(!uniName || !facultyName) return alert('กรุณากรอกชื่อมหาวิทยาลัยและคณะครับ');
+            targets.push({ uniName, facultyName, round });
+            document.getElementById('uniName').value = '';
+            document.getElementById('facultyName').value = '';
+            renderTargets();
+        }
+
+        function delTarget(i) { targets.splice(i, 1); renderTargets(); }
+        renderTargets();
+    </script>
+</body>
+</html>
